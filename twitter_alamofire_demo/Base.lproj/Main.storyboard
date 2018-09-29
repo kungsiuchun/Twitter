@@ -136,6 +136,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OjU-TF-jII" userLabel="Retweet">
                                                     <rect key="frame" x="188" y="82" width="30" height="30"/>
                                                     <state key="normal" image="retweet-icon-green"/>
+                                                    <connections>
+                                                        <action selector="didTapRetweet:" destination="U1g-kw-izy" eventType="touchUpInside" id="4eD-bp-oBh"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHc-v0-Ane" userLabel="@Retweet">
                                                     <rect key="frame" x="220" y="86.5" width="16" height="21"/>

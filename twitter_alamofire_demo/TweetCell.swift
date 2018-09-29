@@ -58,7 +58,60 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func didTapFav(_ sender: Any) {
+        if favOn{
+            favOn = false
+            tweet.favorited = false
+            tweet.favoriteCount! -= 1
+            APIManager.shared.unFavTweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Success")
+                }
+            }
+        } else  {
+            favOn = true
+            tweet.favorited = true
+            tweet.favoriteCount! += 1
+            APIManager.shared.favTweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Success")
+                }
+            }
+        }
+        
     }
+    
+    
+    
+    @IBAction func didTapRetweet(_ sender: Any) {
+        if retweenOn {
+            retweenOn = false
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
+            APIManager.shared.unReTweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Success")
+                }
+            }
+        } else {
+            retweenOn = true
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+            APIManager.shared.reTweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Success")
+                }
+            }
+        }
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
