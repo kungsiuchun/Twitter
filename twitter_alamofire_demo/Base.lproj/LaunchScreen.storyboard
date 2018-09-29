@@ -23,6 +23,10 @@
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="TwitterLogoBlue" translatesAutoresizingMaskIntoConstraints="NO" id="F7n-HD-dty">
                                 <rect key="frame" x="87" y="67" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="B49-eA-Vfi"/>
+                                    <constraint firstAttribute="width" constant="200" id="g9w-en-TUO"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
