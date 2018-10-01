@@ -10,7 +10,6 @@ import UIKit
 
 class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
     @IBOutlet weak var tableView: UITableView!
     
     var tweets: [Tweet] = []
@@ -47,9 +46,21 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
+        fetchTweet()
         self.refreshControl.endRefreshing()
     }
 
+    func fetchTweet() {
+        APIManager.shared.getHomeTimeLine { (tweets, err) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+            } else if let err = err {
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -60,12 +71,18 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        <#code#>
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
-        //
+        cell.tweet = tweets[indexPath.row]
+        return cell
     }
-
+  
+    
+    @IBAction func didTapLogout(_ sender: Any) {
+        APIManager.shared.logout()
+    }
+    
 }

@@ -24,6 +24,8 @@ class User {
     //...
     var dict: [String: Any]?
     // Add any additional properties here
+   // private static var _current: User?
+    
     
     init(dictionary: [String: Any]) {
         self.dict = dictionary

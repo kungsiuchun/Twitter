@@ -87,8 +87,8 @@ class TweetCell: UITableViewCell {
     
     
     @IBAction func didTapRetweet(_ sender: Any) {
-        if retweenOn {
-            retweenOn = false
+        if retweetOn {
+            retweetOn = false
             tweet.retweeted = false
             tweet.retweetCount -= 1
             APIManager.shared.unReTweet(tweet) { (tweet: Tweet?, error: Error?) in
@@ -99,7 +99,7 @@ class TweetCell: UITableViewCell {
                 }
             }
         } else {
-            retweenOn = true
+            retweetOn = true
             tweet.retweeted = true
             tweet.retweetCount += 1
             APIManager.shared.reTweet(tweet) { (tweet: Tweet?, error: Error?) in
