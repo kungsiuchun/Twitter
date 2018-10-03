@@ -41,7 +41,7 @@ class TweetCell: UITableViewCell {
             dateLabel.text = tweet.createdAtString
             tweetTextLabel.text = tweet.text
             retweetLabel.text = String(tweet.retweetCount)
-            favLabel.text = String(tweet.favoriteCount!)
+            favLabel.text = String(tweet.favoriteCount)
             if tweet.favorited!{
                 favOn = true
                 FavButton.imageView?.image = #imageLiteral(resourceName: "favor-icon-red")
@@ -61,7 +61,7 @@ class TweetCell: UITableViewCell {
         if favOn{
             favOn = false
             tweet.favorited = false
-            tweet.favoriteCount! -= 1
+            tweet.favoriteCount -= 1
             APIManager.shared.unFavTweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print(error.localizedDescription)
@@ -72,7 +72,7 @@ class TweetCell: UITableViewCell {
         } else  {
             favOn = true
             tweet.favorited = true
-            tweet.favoriteCount! += 1
+            tweet.favoriteCount += 1
             APIManager.shared.favTweet(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print(error.localizedDescription)

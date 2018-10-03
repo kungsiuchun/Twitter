@@ -8,7 +8,11 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate {
+    func did(post: Tweet) {
+        self.fetchTweet()
+    }
+    
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -84,5 +88,23 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UITableViewCell {
+            if let indexPath = tableView.indexPath(for: cell) {
+                let tweet = tweets[indexPath.row]
+                let detailViewController = segue.destination as! DetailViewController
+                detailViewController.tweet = tweet
+            }
+        }else if segue.identifier == "composeSegue"{
+            let composeViewController = segue.destination as! ComposeViewController
+            composeViewController.delegate = self
+            
+        }else if segue.identifier == "profileSegue" {
+            print("profile view button")
+        }
+    }
+    
     
 }
