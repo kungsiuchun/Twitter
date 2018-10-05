@@ -30,7 +30,7 @@ class Tweet {
     init(dictionary: [String: Any]) {
         var dictionary = dictionary
         
-        // Is this a re-tweet?
+        //Is this a re-tweet?
         if let originalTweet = dictionary["retweeted_status"] as? [String: Any] {
             let userDictionary = dictionary["user"] as! [String: Any]
             self.retweetedByUser = User(dictionary: userDictionary)
@@ -78,7 +78,7 @@ class Tweet {
         }
         return tweets
     }
-    
+
     
     
 }

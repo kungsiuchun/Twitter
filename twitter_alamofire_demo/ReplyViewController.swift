@@ -1,35 +1,30 @@
 //
-//  ComposeViewController.swift
+//  ReplyViewController.swift
 //  twitter_alamofire_demo
 //
-//  Created by XiaoQian Huang on 9/30/18.
+//  Created by XiaoQian Huang on 10/4/18.
 //  Copyright © 2018 Charles Hieger. All rights reserved.
 //
 
 import UIKit
 
-protocol ComposeViewControllerDelegate: NSObjectProtocol {
-    func did(post: Tweet)
-}
+class ReplyViewController: UIViewController, UITextViewDelegate {
 
-class ComposeViewController: UIViewController, UITextViewDelegate {
-
-   
-    @IBOutlet weak var tweetText: UITextView!
+    @IBOutlet weak var replyText: UITextView!
     @IBOutlet weak var characterCountLabel: UILabel!
     
+    var tweet: Tweet!
+    //var replyTweet: [String: Any] = [:]
     
-   weak var delegate: ComposeViewControllerDelegate?
     
-    var user: User!
+   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tweetText.delegate = self
-        tweetText.isEditable = true
-        
-        
+        replyText.delegate = self
+        replyText.isEditable = true
         // Do any additional setup after loading the view.
     }
 
@@ -38,20 +33,20 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didTapTweet(_ sender: Any) {
-        APIManager.shared.composeTweet(with: tweetText.text!) { (tweet, error) in
-            if let error = error {
+    @IBAction func didTapReply(_ sender: Any) {
+        var replyTweet: [String: Any] = [:]
+        replyTweet["text"] = self.replyText.text! + "@" + tweet.user.screenName
+        replyTweet["id"] = tweet.id
+        print(tweet.id)
+        
+        APIManager.shared.reply(with: replyTweet){(tweet, error) in
+            if let error = error{
                 print("Error composing Tweet: \(error.localizedDescription)")
-            } else if let tweet = tweet {
-                self.delegate?.did(post: tweet)
-                print("Compose Tweet Success!")
+            }else if let tweet = tweet {
+                print("Reply Tweet Successfully!")
             }
         }
-       // dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func didCancel(_ sender: Any) {
-         dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -59,19 +54,16 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         // Allow or disallow the new text
         
         // Set the max character limit
-        let characterLimit = 140
         
+        let characterLimit = 140
         // Construct what the new text would be if we allowed the user's latest edit
         let newText = NSString(string: textView.text!).replacingCharacters(in: range, with: text)
-        
         // TODO: Update Character Count Label
         characterCountLabel.text = String(characterLimit - newText.characters.count)
-        
-        
         // The new text should be allowed? True/False
         return newText.characters.count < characterLimit
     }
-    
+
     /*
     // MARK: - Navigation
 

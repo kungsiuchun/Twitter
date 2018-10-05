@@ -28,7 +28,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 150
+        
         // Do any additional setup after loading the view.
         
         refreshControl = UIRefreshControl()
@@ -50,7 +51,17 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
-        fetchTweet()
+        //fetchTweet()
+        
+        APIManager.shared.getNewHomeTimeLine{ (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+            }else if let error = error {
+                print("Error geeting home timeline: " + error.localizedDescription)
+            }
+            
+        }
         self.refreshControl.endRefreshing()
     }
 

@@ -52,7 +52,7 @@ class APIManager: SessionManager {
     
     //logout function
     func logout(){
-        User.current = nil
+        //User.current = nil
         clearCredentials()
         
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)

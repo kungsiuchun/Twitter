@@ -14,17 +14,21 @@ class User {
     
     // TODO: Create initializer
     
-    
-    
-    
     // MARK: Properties
     var name: String
     var screenName: String
     var imageURL: String
+    
     //...
+    var banner_url: URL
+    var followers: Int?
+    var following: Int?
+    var location: String
+    var tweets: Int?
+    var description: String
     var dict: [String: Any]?
     // Add any additional properties here
-   // private static var _current: User?
+    private static var _current: User?
     
     
     init(dictionary: [String: Any]) {
@@ -35,10 +39,21 @@ class User {
         imageURL = String((image.dropLast(11))) + ".jpg"
         //...
         // Initialize any other properties
+        
+        if !(dictionary["profile_banner_url"] == nil){
+            banner_url = URL(string: dictionary["profile_banner_url"] as! String)!
+        }else{
+            banner_url = URL(string: "nil")!
+        }
+        followers = dictionary["followers_count"] as? Int
+        following = dictionary["friends_count"] as? Int
+        location = dictionary["location"] as! String
+        tweets = dictionary["statuses_count"] as? Int
+        description = dictionary["description"] as! String
       
     }
     
-    private static var _current: User?
+    //private static var _current: User?
     
     static var current: User? {
         get{
