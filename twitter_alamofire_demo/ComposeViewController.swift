@@ -14,7 +14,8 @@ protocol ComposeViewControllerDelegate: NSObjectProtocol {
 
 class ComposeViewController: UIViewController, UITextViewDelegate {
 
-   
+    
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tweetText: UITextView!
     @IBOutlet weak var characterCountLabel: UILabel!
     
@@ -29,6 +30,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         tweetText.delegate = self
         tweetText.isEditable = true
         
+        profileImageView.af_setImage(withURL: URL(string: (User.current?.imageURL)!)!)
         
         // Do any additional setup after loading the view.
     }
