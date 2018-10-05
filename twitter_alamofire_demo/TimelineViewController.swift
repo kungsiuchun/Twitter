@@ -14,6 +14,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
     var tweets: [Tweet] = []
@@ -35,19 +36,31 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(TimelineViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
-        
+        self.activityIndicator.startAnimating()
         
         APIManager.shared.getHomeTimeLine{ (tweets, error) in
             if let tweets = tweets {
                 self.tweets = tweets
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
             }else if let error = error {
                 print("Error geeting home timeline: " + error.localizedDescription)
+                self.myAlert(title: "Cannot Get Tweets", message: "The Internet connection appears to be offline.")
             }
             
         }
     }
     
+    func myAlert(title: String, message: String)
+    {
+        let alertController = UIAlertController(title: "Cannot Get Tweets", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "TRY AGAIN", style: .default, handler: { (action) in
+            // handle response here.
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
@@ -57,8 +70,11 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             if let tweets = tweets {
                 self.tweets = tweets
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
             }else if let error = error {
                 print("Error geeting home timeline: " + error.localizedDescription)
+                self.myAlert(title: "Cannot Get Tweets", message: "The Internet connection appears to be offline.")
             }
             
         }
@@ -70,8 +86,11 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             if let tweets = tweets {
                 self.tweets = tweets
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
             } else if let err = err {
                 print(err.localizedDescription)
+                self.myAlert(title: "Cannot Get Tweets", message: "The Internet connection appears to be offline.")
             }
         }
     }
